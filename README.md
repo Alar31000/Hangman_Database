@@ -1,2 +1,2 @@
 # Hangman_Database
-Hangman SQL
+Hangman SQL Database for Dictionnary
