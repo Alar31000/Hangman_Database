@@ -1,2 +1,2 @@
 # Hangman_Database
-Hangman SQL Database for Dictionnary
+base de données dico Hangman
