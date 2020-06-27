@@ -1,0 +1,5 @@
+mysql-connector-python
+flask_sqlalchemy
+Flask
+SimpleJSON
+python-dotenv
