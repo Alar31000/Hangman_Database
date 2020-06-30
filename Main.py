@@ -1,40 +1,53 @@
 from flask import Flask, request, jsonify, Response
 from flask_sqlalchemy import SQLAlchemy
 import simplejson as json
+import enum
 
 # localhost:3306
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:Hurricaner2!@localhost[:3306]/db_hangman'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Michelicious11!@localhost:3306/db_hangman'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-hangman_db = SQLAlchemy(app)
+hdb = SQLAlchemy(app)
 
 
 @app.route('/')
 def hello_world():
     """Print 'Hello, world!' as the response body."""
-    return 'Hello, world!'
+    return 'Hello, caca!'
 
 
-@app.route('/words', methods=["POST"])
-def add_word():
-    words_id = request.form.get('words_id')
+@app.route('/test')
+def testing():
+    """Print 'Hello, world!' as the response body."""
+    return 'test!'
+
+
+@app.route('/words', methods=['POST'])
+def words():
+    # words_id = request.form.get('words_id')
     mot = request.form.get('mot')
     difficulte = request.form.get('difficulte')
-    hangman_db.session.add(words)
     save_to_db(mot, difficulte)
-    return ""
+    return "it worked"
 
 
-class Word(db_hangman.Model):
-    id = db_hangman.Column(db_hangman.Integer, primary_key=True)
-    mot = db_hangman.Column(db_hangman.String(20), unique=True, nullable=False)
-    difficulte = db_hangman.Column(db_hangman.String(255), unique=True, nullable=False)
+class Word(hdb.Model):
+    choix_difficulte = ['F', 'M', 'D']
+    id = hdb.Column(hdb.Integer, primary_key=True)
+    mot = hdb.Column(hdb.String(20), unique=True, nullable=False)
+    difficulte = hdb.Column(hdb.Enum, unique=True, nullable=False)
+
 
 
 def save_to_db(mot, difficulte):
     word_to_add = Word(mot=mot, difficulte=difficulte)
-    dbsession.add(word_to_add)
-    session.commit()
+    hdb.session.add(word_to_add)
+    hdb.session.commit()
     return jsonify(Word=word_to_add.serialize)
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug= True, port=3310)
