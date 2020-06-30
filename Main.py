@@ -6,7 +6,7 @@ import enum
 # localhost:3306
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Michelicious11!@localhost:3306/db_hangman'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Michelicious11!@localhost:3306/hangman'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -34,8 +34,7 @@ def words():
     return "it worked"
 
 
-class Word(hdb.Model):
-    choix_difficulte = ['F', 'M', 'D']
+class Words(hdb.Model):
     id = hdb.Column(hdb.Integer, primary_key=True)
     mot = hdb.Column(hdb.String(20), unique=True, nullable=False)
     difficulte = hdb.Column(hdb.Enum, unique=True, nullable=False)
@@ -43,10 +42,10 @@ class Word(hdb.Model):
 
 
 def save_to_db(mot, difficulte):
-    word_to_add = Word(mot=mot, difficulte=difficulte)
+    word_to_add = Words(mot=mot, difficulte=difficulte)
     hdb.session.add(word_to_add)
     hdb.session.commit()
-    return jsonify(Word=word_to_add.serialize)
+
 
 
 if __name__ == "__main__":
